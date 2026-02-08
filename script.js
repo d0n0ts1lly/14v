@@ -117,7 +117,7 @@ function typeText(text, delay = 0) {
     lyrics.classList.add("show");
 
     let i = 0;
-    const speed = 55; // скорость печати (мс на символ)
+    const speed = 50; // скорость печати (мс на символ)
 
     typingInterval = setInterval(() => {
       if (audio.paused) {

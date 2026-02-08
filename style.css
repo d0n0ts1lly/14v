@@ -1,0 +1,340 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: #050508;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  overflow: hidden;
+  padding: 20px;
+}
+
+/* Атмосферный фон */
+.bg {
+  position: fixed;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle at 20% 30%, #ff4ecd44, transparent),
+    radial-gradient(circle at 80% 70%, #4ecbff44, transparent),
+    radial-gradient(circle at 50% 50%, #ff69b422, transparent);
+  animation: bgmove 18s linear infinite;
+  filter: blur(120px);
+  z-index: -2;
+}
+
+@keyframes bgmove {
+  0% {
+    transform: translate(-10%, -10%) rotate(0deg);
+  }
+  50% {
+    transform: translate(5%, 5%) rotate(180deg);
+  }
+  100% {
+    transform: translate(-10%, -10%) rotate(360deg);
+  }
+}
+
+/* Смайлики на фоне */
+#stickers {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.sticker {
+  position: absolute;
+  font-size: 40px;
+  opacity: 0.2;
+  animation: float-sticker 12s ease-in-out infinite;
+}
+
+@keyframes float-sticker {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  25% {
+    transform: translateY(-30px) rotate(10deg);
+  }
+  50% {
+    transform: translateY(-15px) rotate(-10deg);
+  }
+  75% {
+    transform: translateY(-25px) rotate(5deg);
+  }
+}
+
+/* Сердечки */
+#hearts {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1000;
+}
+
+.heart {
+  position: absolute;
+  font-size: 20px;
+  animation: float 6s linear forwards;
+  filter: drop-shadow(0 0 8px rgba(255, 78, 205, 0.8));
+  z-index: 9999;
+}
+
+@keyframes float {
+  from {
+    transform: translateY(0) rotate(0deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 0.9;
+  }
+  to {
+    transform: translateY(-120vh) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+/* Панель управления */
+.controls {
+  margin-top: 20px;
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  padding: 12px 20px;
+  border-radius: 50px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  z-index: 100;
+}
+
+.controls button {
+  background: linear-gradient(135deg, #ff4ecd, #ff69b4);
+  color: white;
+  border: none;
+  padding: 10px 24px;
+  border-radius: 25px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(255, 78, 205, 0.4);
+}
+
+.controls button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 78, 205, 0.6);
+}
+
+.controls button:active {
+  transform: translateY(0);
+}
+
+.controls label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: white;
+  font-size: 18px;
+}
+
+.controls input[type="range"] {
+  width: 100px;
+  cursor: pointer;
+}
+
+/* Карточка с фото */
+.card {
+  position: relative;
+  width: auto;
+  max-width: 90vw;
+  max-height: 80vh;
+  background: transparent;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 50px 100px rgba(0, 0, 0, 0.8),
+    0 20px 60px rgba(255, 78, 205, 0.3);
+  transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 1;
+  /* Красивая рамка */
+  border: 3px solid transparent;
+  background-image: linear-gradient(#050508, #050508),
+    linear-gradient(135deg, #ff4ecd, #ff69b4, #4ecbff, #ff4ecd);
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
+}
+
+.card:hover {
+  transform: scale(1.02);
+}
+
+.photo-wrapper {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card img {
+  max-width: 100%;
+  max-height: 80vh;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  transition: opacity 1s ease, transform 1s ease;
+  display: block;
+}
+
+/* Плавная смена фото */
+.card img.fade-out {
+  opacity: 0;
+  transform: scale(0.95);
+}
+
+.card img.fade-in {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Оверлей с текстом */
+.overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0) 0%,
+    rgba(0, 0, 0, 0.3) 50%,
+    rgba(0, 0, 0, 0.85) 100%
+  );
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 40px 30px;
+  pointer-events: none;
+}
+
+#lyrics {
+  text-align: center;
+  font-size: 24px;
+  font-weight: 700;
+  color: white;
+  text-shadow: 0 0 20px rgba(0, 0, 0, 0.9), 0 4px 10px rgba(0, 0, 0, 0.8),
+    0 0 40px rgba(255, 78, 205, 0.4);
+  line-height: 1.4;
+  letter-spacing: 0.5px;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+  min-height: 80px;
+}
+
+#lyrics.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Финальный экран */
+#final {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 48px;
+  font-weight: 800;
+  color: white;
+  background: linear-gradient(135deg, #0f0f1e 0%, #1a1a2e 100%);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 2s ease;
+  text-shadow: 0 0 30px rgba(255, 78, 205, 0.8),
+    0 0 60px rgba(255, 105, 180, 0.6);
+  z-index: 1000;
+}
+
+#final.show {
+  opacity: 1;
+  pointer-events: all;
+}
+
+/* Адаптивность для телефона */
+@media (max-width: 768px) {
+  body {
+    padding: 10px;
+  }
+
+  .card {
+    max-width: 95vw !important;
+    max-height: 75vh !important;
+  }
+
+  #lyrics {
+    font-size: 18px;
+    padding: 0 10px;
+  }
+
+  #final {
+    font-size: 32px;
+    padding: 20px;
+    text-align: center;
+  }
+
+  .controls label {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .controls input[type="range"] {
+    width: 150px;
+  }
+}
+
+@media (max-width: 480px) {
+  .card {
+    height: 450px;
+    border-radius: 20px;
+  }
+
+  #lyrics {
+    font-size: 18px;
+  }
+
+  #final {
+    font-size: 28px;
+  }
+
+  .controls button {
+    width: 100%;
+  }
+}
+
+/* Ландшафтная ориентация на телефоне */
+@media (max-height: 600px) and (orientation: landscape) {
+  body {
+    padding: 10px;
+  }
+
+  .card {
+    height: 85vh;
+    max-height: 400px;
+  }
+
+  .controls {
+    margin-bottom: 10px;
+  }
+}
